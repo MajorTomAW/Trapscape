@@ -41,14 +41,14 @@ public:
 	UPROPERTY(BlueprintAssignable, Category = "Events")
 		FOnUpdateMaxHealth OnUpdateMaxHealth;
 	//Functions
-	UFUNCTION(BlueprintCallable)
+	UFUNCTION(BlueprintCallable, Category = "Health")
 		void HealPlayer(float HealValue);
-	UFUNCTION(BlueprintCallable)
+	UFUNCTION(BlueprintCallable, Category = "Health")
 		void ResetHealth();
-	UFUNCTION(BlueprintCallable, BlueprintPure)
+	UFUNCTION(BlueprintCallable, BlueprintPure, Category = "Health")
 		float GetCurrentHealth();
-	UFUNCTION(BlueprintCallable, BlueprintPure)
+	UFUNCTION(BlueprintCallable, BlueprintPure, Category = "Health")
 		float GetMaxHealth();
-	UFUNCTION(BlueprintCallable, BlueprintPure)
+	UFUNCTION(BlueprintCallable, BlueprintPure, Category = "Health")
 		bool GetIsDead();
 };
