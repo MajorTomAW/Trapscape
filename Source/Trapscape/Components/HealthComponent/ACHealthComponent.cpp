@@ -5,7 +5,7 @@
 UACHealthComponent::UACHealthComponent()
 {
 	PrimaryComponentTick.bCanEverTick = true;
-	SetIsReplicated(true);
+	SetIsReplicatedByDefault(true);
 }
 
 void UACHealthComponent::BeginPlay()
