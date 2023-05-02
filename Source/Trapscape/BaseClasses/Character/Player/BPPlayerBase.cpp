@@ -118,6 +118,7 @@ void ABPPlayerBase::SetupPlayerInputComponent(UInputComponent* PlayerInputCompon
 	if (UEnhancedInputComponent* EnhancedInputComponent = Cast<UEnhancedInputComponent>(PlayerInputComponent))
 	{
 		EnhancedInputComponent->BindAction(MoveAction, ETriggerEvent::Triggered, this, &ABPPlayerBase::PlayerMove);
+		EnhancedInputComponent->BindAction(MoveAction, ETriggerEvent::Completed, this, &ABPPlayerBase::PlayerMove);
 		EnhancedInputComponent->BindAction(MouseAction, ETriggerEvent::Triggered, this, &ABPPlayerBase::PlayerMouse);
 		EnhancedInputComponent->BindAction(JumpAction, ETriggerEvent::Started, this, &ABPPlayerBase::PlayerJump);
 		EnhancedInputComponent->BindAction(JumpAction, ETriggerEvent::Completed, this, &ACharacter::StopJumping);
