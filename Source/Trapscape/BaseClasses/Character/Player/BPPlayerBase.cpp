@@ -34,6 +34,10 @@ ABPPlayerBase::ABPPlayerBase()
 		ThirdPersonCam = CreateDefaultSubobject<UCameraComponent>("ThirdPersonCam");
 		ThirdPersonCam->SetupAttachment(ThirdPersonSpringarm);
 	}
+	if(!InteractComponent)
+	{
+		InteractComponent = CreateDefaultSubobject<UACInteractComponent>("Interact Component");
+	}
 }
 
 void ABPPlayerBase::BeginPlay()
@@ -47,6 +51,7 @@ void ABPPlayerBase::BeginPlay()
 			Subsystem->AddMappingContext(PlayerMappingContext, 0);
 		}
 	}
+	InteractComponent->StartScanning();
 }
 
 void ABPPlayerBase::PlayerMove(const FInputActionValue& Axis)

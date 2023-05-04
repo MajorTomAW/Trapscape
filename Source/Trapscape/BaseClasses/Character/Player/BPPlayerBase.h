@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Trapscape/BaseClasses/Character/BPCharacterBase.h"
+#include "Trapscape/Components/InteractComponent/ACInteractComponent.h"
 #include "InputMappingContext.h"
 #include "Camera/CameraComponent.h"
 #include "GameFramework/SpringArmComponent.h"
@@ -41,6 +42,8 @@ public:
 		USpringArmComponent* ThirdPersonSpringarm;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 		UCameraComponent* ThirdPersonCam;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		UACInteractComponent* InteractComponent;
 	
 	//Enhanced Input
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Player|Input")
