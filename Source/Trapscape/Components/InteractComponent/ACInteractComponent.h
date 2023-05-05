@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
+#include "Components/TimelineComponent.h"
 #include "Camera/CameraComponent.h"
 #include "ACInteractComponent.generated.h"
 
@@ -51,4 +52,15 @@ public:
 		void StartInteracting();
 	UFUNCTION(Server, Reliable)
 		void StopInteracting();
+
+	//Interact Timeline
+	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "Interact")
+	UCurveFloat* InteractCurve;
+	FTimeline InteractTimeline;
+	FOnTimelineFloat TimelineCallback;
+	FOnTimelineEventStatic TimelineFinishedCallback;
+	UFUNCTION()
+		void InteractFinished();
+	UFUNCTION()
+		void InteractProgressing(float axis);
 };

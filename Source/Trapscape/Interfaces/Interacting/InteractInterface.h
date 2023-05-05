@@ -29,7 +29,7 @@ public:
 		void InteractProgress(float Progress);
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
 		void SendIsPressed(bool bIsPressed);
-	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
+	UFUNCTION(BlueprintNativeEvent)
 		void Interact(ABPPlayerBase* Player);
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
 		bool GetUseProgress();	

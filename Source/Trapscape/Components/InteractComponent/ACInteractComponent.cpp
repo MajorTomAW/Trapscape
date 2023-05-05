@@ -23,6 +23,12 @@ void UACInteractComponent::BeginPlay()
 	Super::BeginPlay();
 	ABPPlayerBase* PlayerRef = Cast<ABPPlayerBase>(GetOwner());
 	PlayerCameraComponent = PlayerRef->ThirdPersonCam;
+
+	TimelineCallback.BindUFunction(this, FName{TEXT("InteractProgressing")});
+	TimelineFinishedCallback.BindUFunction(this, FName{TEXT("InteractFinished")});
+
+	InteractTimeline.AddInterpFloat(InteractCurve, TimelineCallback);
+	InteractTimeline.SetTimelineFinishedFunc(TimelineFinishedCallback);
 }
 
 
@@ -30,6 +36,7 @@ void UACInteractComponent::BeginPlay()
 void UACInteractComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
+	InteractTimeline.TickTimeline(DeltaTime);
 }
 
 void UACInteractComponent::StartScanning_Implementation()
@@ -57,7 +64,7 @@ void UACInteractComponent::ScanInteract()
 		}
 		else
 		{
-			if(!bCurrentlyInteracting)
+			if(!bCurrentlyInteracting && TargetActor)
 			{
 				//End the Overlap
 				EndOverlap();
@@ -72,10 +79,44 @@ void UACInteractComponent::ScanInteract()
 
 void UACInteractComponent::StopInteracting_Implementation()
 {
+	InteractTimeline.Stop();
+	bCurrentlyInteracting = false;
+	if(TargetActor)
+	{
+		IInteractInterface::Execute_SendIsPressed(TargetActor, false);
+		IInteractInterface::Execute_InteractProgress(TargetActor, -0.1f);
+	}
 }
 
 void UACInteractComponent::StartInteracting_Implementation()
 {
+	if(TargetActor)
+	{
+		bool bUseProgress = IInteractInterface::Execute_GetUseProgress(TargetActor);
+		IInteractInterface::Execute_SendIsPressed(TargetActor, true);
+		if(bUseProgress)
+		{
+			InteractTimeline.PlayFromStart();
+			bCurrentlyInteracting = true;
+		}
+		else
+		{
+			IInteractInterface::Execute_Interact(TargetActor, Cast<ABPPlayerBase>(GetOwner()));
+		}
+	}
+}
+
+void UACInteractComponent::InteractFinished()
+{
+	IInteractInterface::Execute_Interact(TargetActor, Cast<ABPPlayerBase>(GetOwner()));
+}
+
+void UACInteractComponent::InteractProgressing(float axis)
+{
+	if(TargetActor)
+	{
+		IInteractInterface::Execute_InteractProgress(TargetActor, axis);
+	}
 }
 
 void UACInteractComponent::HandleTimer_Implementation(bool bPause)
@@ -95,7 +136,10 @@ void UACInteractComponent::ShowInteractUI_Implementation(bool bShow, AActor* Act
 	if(Actor->GetClass()->ImplementsInterface(UInteractInterface::StaticClass()))
 	{
 		IInteractInterface::Execute_ShowInteractInterface(Actor, bShow);
-		UKismetSystemLibrary::PrintString(GetWorld(), "Show Interact Widget");
+		if(!bShow)
+		{
+			IInteractInterface::Execute_SendIsPressed(Actor, false);
+		}
 	}
 }
 
@@ -110,7 +154,6 @@ void UACInteractComponent::EndOverlap_Implementation()
 
 void UACInteractComponent::NewOverlap_Implementation(AActor* Actor)
 {
-	UKismetSystemLibrary::PrintString(GetWorld(), UKismetSystemLibrary::GetObjectName(Actor));
 	if(TargetActor)
 	{
 		ShowInteractUI(false, TargetActor);
@@ -127,3 +170,5 @@ void UACInteractComponent::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>&
 	DOREPLIFETIME(UACInteractComponent, TargetActor);
 	DOREPLIFETIME(UACInteractComponent, bCurrentlyInteracting);
 }
+
+

@@ -56,6 +56,8 @@ public:
 		UInputAction* JumpAction;
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Player|Input")
 		UInputAction* SprintAction;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Player|Input")
+		UInputAction* InteractAction;
 
 protected:
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
@@ -67,6 +69,8 @@ protected:
 	void PlayerMouse(const FInputActionValue& Axis);
 	void PlayerJump();
 	void PlayerSprint();
+	void StartInteracting();
+	void StopInteracting();
 
 	//Sprinting
 	UFUNCTION(BlueprintCallable)

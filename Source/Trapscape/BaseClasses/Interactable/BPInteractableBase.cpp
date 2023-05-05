@@ -45,7 +45,6 @@ void ABPInteractableBase::Tick(float DeltaTime)
 
 void ABPInteractableBase::ShowInteractInterface_Implementation(bool bShow)
 {
-	UKismetSystemLibrary::PrintString(GetWorld(), "Interactable will show the widget now");
 	if(bInteractable)
 	{
 		InteractWidgetComponent->SetVisibility(bShow);
@@ -72,18 +71,7 @@ void ABPInteractableBase::Interact_Implementation(ABPPlayerBase* Player)
 {
 	if(bInteractable)
 	{
-		switch (InteractInfo.InteractType)
-		{
-		case EInteractType::Static:
-			InteractStatic(Player);
-			break;
-		case EInteractType::Item:
-			InteractItem(Player);
-			break;
-		case EInteractType::NPC:
-			InteractNPC(Player);
-			break;
-		}
+		InteractWithObject(Player);
 	}
 }
 
@@ -92,15 +80,9 @@ bool ABPInteractableBase::GetUseProgress_Implementation()
 	return InteractInfo.bUseProgress;
 }
 
-//Overwriteables
-void ABPInteractableBase::InteractItem_Implementation(ABPPlayerBase* Player)
+void ABPInteractableBase::InteractWithObject_Implementation(ABPPlayerBase* Player)
 {
-}
-void ABPInteractableBase::InteractStatic_Implementation(ABPPlayerBase* Player)
-{
-}
-void ABPInteractableBase::InteractNPC_Implementation(ABPPlayerBase* Player)
-{
+
 }
 
 void ABPInteractableBase::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const

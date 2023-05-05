@@ -67,10 +67,5 @@ public:
 		bool bInteractable = true;
 
 	UFUNCTION(Server, Reliable)
-		void InteractNPC(ABPPlayerBase* Player);
-	UFUNCTION(Server, Reliable)
-		void InteractStatic(ABPPlayerBase* Player);
-	UFUNCTION(Server, Reliable)
-		void InteractItem(ABPPlayerBase* Player);
-	
+		void InteractWithObject(ABPPlayerBase* Player);
 };

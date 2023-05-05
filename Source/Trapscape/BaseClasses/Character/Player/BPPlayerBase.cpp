@@ -103,6 +103,16 @@ void ABPPlayerBase::PlayerSprint()
 	SprintSwitch(true);
 }
 
+void ABPPlayerBase::StartInteracting()
+{
+	InteractComponent->StartInteracting();
+}
+
+void ABPPlayerBase::StopInteracting()
+{
+	InteractComponent->StopInteracting();
+}
+
 void ABPPlayerBase::SprintSwitch(bool bSprintState)
 {
 	if(!HasAuthority())
@@ -128,6 +138,8 @@ void ABPPlayerBase::SetupPlayerInputComponent(UInputComponent* PlayerInputCompon
 		EnhancedInputComponent->BindAction(JumpAction, ETriggerEvent::Started, this, &ABPPlayerBase::PlayerJump);
 		EnhancedInputComponent->BindAction(JumpAction, ETriggerEvent::Completed, this, &ACharacter::StopJumping);
 		EnhancedInputComponent->BindAction(SprintAction, ETriggerEvent::Started, this, &ABPPlayerBase::PlayerSprint);
+		EnhancedInputComponent->BindAction(InteractAction, ETriggerEvent::Started, this, &ABPPlayerBase::StartInteracting);
+		EnhancedInputComponent->BindAction(InteractAction, ETriggerEvent::Completed, this, &ABPPlayerBase::StopInteracting);
 	}
 }
 
