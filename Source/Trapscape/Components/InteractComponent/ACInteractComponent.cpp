@@ -49,7 +49,6 @@ void UACInteractComponent::ScanInteract()
 		//DrawLineTraces(GetWorld(), StartLocation, EndLocation, TArray<FHitResult>(), 2.0f);
 		if(GetWorld()->LineTraceSingleByChannel(HitResult, StartLocation, EndLocation, ECollisionChannel::ECC_GameTraceChannel3, Params, FCollisionResponseParams()))
 		{
-			UKismetSystemLibrary::PrintString(GetWorld(), UKismetSystemLibrary::GetObjectName(HitResult.GetActor()));
 			if(TargetActor != HitResult.GetActor())
 			{
 				//Scanned a new overlap
@@ -96,6 +95,7 @@ void UACInteractComponent::ShowInteractUI_Implementation(bool bShow, AActor* Act
 	if(Actor->GetClass()->ImplementsInterface(UInteractInterface::StaticClass()))
 	{
 		IInteractInterface::Execute_ShowInteractInterface(Actor, bShow);
+		UKismetSystemLibrary::PrintString(GetWorld(), "Show Interact Widget");
 	}
 }
 
@@ -110,6 +110,7 @@ void UACInteractComponent::EndOverlap_Implementation()
 
 void UACInteractComponent::NewOverlap_Implementation(AActor* Actor)
 {
+	UKismetSystemLibrary::PrintString(GetWorld(), UKismetSystemLibrary::GetObjectName(Actor));
 	if(TargetActor)
 	{
 		ShowInteractUI(false, TargetActor);
