@@ -76,6 +76,10 @@ void UACInteractComponent::ScanInteract()
 		UE_LOG(LogTemp, Warning, TEXT("Interact Component: Got bad Camera Component"));
 	}
 }
+void UACInteractComponent::cSendIsPressed_Implementation(AActor* Actor, bool bPressed)
+{
+	IInteractInterface::Execute_SendIsPressed(Actor, bPressed);
+}
 
 void UACInteractComponent::StopInteracting_Implementation()
 {
@@ -83,8 +87,8 @@ void UACInteractComponent::StopInteracting_Implementation()
 	bCurrentlyInteracting = false;
 	if(TargetActor)
 	{
-		IInteractInterface::Execute_SendIsPressed(TargetActor, false);
-		IInteractInterface::Execute_InteractProgress(TargetActor, -0.1f);
+		cSendIsPressed(TargetActor, false);
+		cInteracting(TargetActor, -0.1f);
 	}
 }
 
@@ -93,7 +97,7 @@ void UACInteractComponent::StartInteracting_Implementation()
 	if(TargetActor)
 	{
 		bool bUseProgress = IInteractInterface::Execute_GetUseProgress(TargetActor);
-		IInteractInterface::Execute_SendIsPressed(TargetActor, true);
+		cSendIsPressed(TargetActor, true);
 		if(bUseProgress)
 		{
 			InteractTimeline.PlayFromStart();
@@ -115,8 +119,12 @@ void UACInteractComponent::InteractProgressing(float axis)
 {
 	if(TargetActor)
 	{
-		IInteractInterface::Execute_InteractProgress(TargetActor, axis);
+		cInteracting(TargetActor, axis);
 	}
+}
+void UACInteractComponent::cInteracting_Implementation(AActor* Actor, float Progress)
+{
+	IInteractInterface::Execute_InteractProgress(Actor, Progress);
 }
 
 void UACInteractComponent::HandleTimer_Implementation(bool bPause)
@@ -170,5 +178,3 @@ void UACInteractComponent::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>&
 	DOREPLIFETIME(UACInteractComponent, TargetActor);
 	DOREPLIFETIME(UACInteractComponent, bCurrentlyInteracting);
 }
-
-

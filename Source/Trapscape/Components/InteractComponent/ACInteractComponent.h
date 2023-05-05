@@ -46,6 +46,10 @@ public:
 		void EndOverlap();
 	UFUNCTION(Client, Reliable)
 		void ShowInteractUI(bool bShow, AActor* Actor);
+	UFUNCTION(Client, Reliable)
+		void cSendIsPressed(AActor* Actor, bool bPressed);
+	UFUNCTION(Client, Reliable)
+		void cInteracting(AActor* Actor, float Progress);
 	UFUNCTION(Server, Reliable)
 		void HandleTimer(bool bPause);
 	UFUNCTION(Server, Reliable)

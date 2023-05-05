@@ -48,6 +48,18 @@ void ABPInteractableBase::ShowInteractInterface_Implementation(bool bShow)
 	if(bInteractable)
 	{
 		InteractWidgetComponent->SetVisibility(bShow);
+		TArray<UStaticMeshComponent*> StaticMeshComponents;
+		GetComponents<UStaticMeshComponent>(StaticMeshComponents);
+		for (UStaticMeshComponent* StaticMesh : StaticMeshComponents)
+		{
+			StaticMesh->SetRenderCustomDepth(bShow);
+		}
+		TArray<USkeletalMeshComponent*> SkeletalMeshComponents;
+		GetComponents<USkeletalMeshComponent>(SkeletalMeshComponents);
+		for(USkeletalMeshComponent* SkeletalMesh : SkeletalMeshComponents)
+		{
+			SkeletalMesh->SetRenderCustomDepth(bShow);
+		}
 	}
 }
 
