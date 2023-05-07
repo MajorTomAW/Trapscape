@@ -17,7 +17,8 @@ UBTDecorator_DistanceTo::UBTDecorator_DistanceTo()
 	BlackboardKey.AddObjectFilter(this, GET_MEMBER_NAME_CHECKED(UBTDecorator_DistanceTo, BlackboardKey), AActor::StaticClass());
 	BlackboardKey.AddVectorFilter(this, GET_MEMBER_NAME_CHECKED(UBTDecorator_DistanceTo, BlackboardKey));
 
-	bAllowAbortChildNodes = false;
+	bAllowAbortChildNodes = true;
+	bAllowAbortLowerPri = true;
 }
 
 bool UBTDecorator_DistanceTo::CalculateRawConditionValue(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory) const
