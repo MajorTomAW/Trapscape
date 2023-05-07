@@ -12,7 +12,7 @@ ABPPlayerBase::ABPPlayerBase()
 	bUseControllerRotationRoll = false;
 	bUseControllerRotationYaw = false;
 	GetCharacterMovement()->MaxWalkSpeed = PlayerMovementInfo.WalkSpeed;
-	GetCharacterMovement()->AirControl = 1.0f;
+	GetCharacterMovement()->AirControl = 0.5f;
 	GetCharacterMovement()->GravityScale = 1.2;
 	GetCharacterMovement()->bOrientRotationToMovement = true;
 	GetCharacterMovement()->RotationRate = FRotator(0.0f, 520.0f, 0.0f);
