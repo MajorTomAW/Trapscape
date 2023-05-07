@@ -65,6 +65,7 @@ bool UBTDecorator_DistanceCheck::CalculateRawConditionValue(UBehaviorTreeCompone
 		//Calculate Result
 		bCondition = FVector::Distance(OwnerComp.GetAIOwner()->GetPawn()->GetActorLocation(), PrimaryLocation) < FVector::Distance(OwnerComp.GetAIOwner()->GetPawn()->GetActorLocation(), SecondaryLocation);
 	}
+	UKismetSystemLibrary::PrintString(GetWorld(), bCondition ? "Is Closer than the other" : "is not closer than the other");
 	return bCondition;
 }
 
