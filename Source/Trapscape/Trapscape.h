@@ -3,4 +3,5 @@
 #pragma once
 
 #include "CoreMinimal.h"
-
+#include "BaseClasses/Buildings/BPBuildingBase.h"
+#include "Engine/DataTable.h"
